@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using PlatformService.Models;
 
@@ -6,30 +8,35 @@ namespace PlatformService.Data
 {
     public class PlatformRepo : IPlatformRepo
     {
-        private readonly DbContext _context;
+        private readonly AppDbContext _context;
 
-        public PlatformRepo(DbContext context)
+        public PlatformRepo(AppDbContext context)
         {
             _context = context;
         }
         public void CreatePlatform(Platform platform)
         {
-            throw new System.NotImplementedException();
+            if (platform == null)
+            {
+                throw new ArgumentNullException(nameof(platform));
+            }
+
+            _context.Platforms.Add(platform);
         }
 
         public IEnumerable<Platform> GetAllPlatforms()
         {
-            throw new System.NotImplementedException();
+            return _context.Platforms.ToList();
         }
 
         public Platform GetPlatformById(int id)
         {
-            throw new System.NotImplementedException();
+            return _context.Platforms.FirstOrDefault(p => p.Id == id);
         }
 
         public bool SaveChanges()
         {
-            return (_context.SaveChanges() >= 0);
+            return _context.SaveChanges() >= 0;
         }
     }
 }
