@@ -38,7 +38,7 @@ namespace PlatformService.Controllers
             {
                 return Ok(_mapper.Map<PlatformReadDto>(platformItem));
             }
-j
+
             return NotFound();
         }
 
